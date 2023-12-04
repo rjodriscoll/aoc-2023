@@ -1,5 +1,5 @@
 include("../utils.jl")
-using  Base: match
+using Base: match
 t = read_text("data.txt")
 
 game_pattern = r"Game (\d+)"
@@ -7,8 +7,20 @@ red_pattern = r"(\d+) red"
 green_pattern = r"(\d+) green"
 blue_pattern = r"(\d+) blue"
 
+function find_max(pattern, s)
+    matches = eachmatch(pattern, s)
+    max_value = 0
+    for m in matches
+        value = parse(Int, m[1])
+        if value > max_value
+            max_value = value
+        end
+    end
+    return max_value
+end
 
-total_power = 0 
+
+total_power = 0
 game_sum = 0
 for s in t
     game_id = parse(Int, match(game_pattern, s)[1])
